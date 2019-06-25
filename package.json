@@ -80,10 +80,10 @@
   ],
   "license": "Apache-2.0",
   "main": "./xlsx",
-  "name": "xlsx-style",
+  "name": "xlsx-style-rows",
   "repository": {
     "type": "git",
-    "url": "git://github.com/protobi/js-xlsx.git#beta"
+    "url": "git@github.com:wenfangcao/js-xlsx.git"
   },
   "scripts": {
     "pretest": "git submodule init && git submodule update",

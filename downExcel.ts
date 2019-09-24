@@ -27,7 +27,7 @@ const titleStyle = {
   }
 }
 
-let jsonList = []
+let jsonList: any[] = []
 
 // 生成合并单元格数据
 const getMerges = (row: any, rowIndex: any, config: any) => {
@@ -77,15 +77,15 @@ const formatSheetData = (json: any, config: any, showError: any) => {
     } else return row
   })
   let tmpdata = config.title || json[0]
-  let keyMap = [] // 获取keys
+  let keyMap : any[]= [] // 获取keys
   for (let k in tmpdata) {
     keyMap.push(k)
   }
   if (showError) keyMap.push(keyMap.length)
   tmpdata = [] // 用来保存转换好的json
-  json.map((v, i) =>
+  json.map((v: any[], i: any) =>
     keyMap.map((k, j) => {
-      let obj = {
+      let obj : any = {
         v: v[k],
         position: (j > 25 ? getCharCol(j) : String.fromCharCode(65 + j)) + (i + 1)
       }
@@ -111,7 +111,8 @@ const formatSheetData = (json: any, config: any, showError: any) => {
   if (config.colHeight) { tmpdata['!rows'] = config.colHeight }
   if (config.merges) { tmpdata['!merges'] = config.merges }
   if (config.header) {
-    for (let [key, val] of Object.entries(config.header)) {
+    let header: object = config.header
+    for (let [key, val] of Object.entries(header)) {
       if (val['v']) tmpdata[key].v = val['v']
       if (!tmpdata[key]) tmpdata[key] = {}
       tmpdata[key].s = val['s'] ? val['s'] : cellStyle
@@ -120,10 +121,12 @@ const formatSheetData = (json: any, config: any, showError: any) => {
   jsonList.push({tmpdata, sheetConfig: config, outputPos})
 }
 
-const jsonToBolb = (config) => {
+const jsonToBolb = (config: any) => {
+  let SheetNames : any[] = []
+  let Sheets : {[key: string]: any} = {}
   let tmpWB = {
-    SheetNames: [], // 保存的表标题
-    Sheets: {} // 设置填充区域
+    SheetNames : SheetNames, // 保存的表标题
+    Sheets: Sheets // 设置填充区域
   }
   jsonList.forEach(({ tmpdata, sheetConfig, outputPos }) => {
     let sheetName = sheetConfig.sheetName || 'mySheet'

@@ -9555,7 +9555,7 @@ function parse_xlml(data, opts) {
 	}
 }
 
-function write_xlml(wb, opts) { }
+async function write_xlml(wb, opts) { }
 
 /* [MS-OLEDS] 2.3.8 CompObjStream */
 function parse_compobj(obj) {
@@ -11788,16 +11788,16 @@ function readFileSync(data, opts) {
   wb.FILENAME = data;
 	return wb;
 }
-function write_zip_type(wb, opts) {
+async function write_zip_type(wb, opts) {
 	var o = opts||{};
   style_builder  = new StyleBuilder(opts);
 
   var z = write_zip(wb, o);
 	switch(o.type) {
-		case "base64": return z.generate({type:"base64"});
-		case "binary": return z.generate({type:"string"});
-		case "buffer": return z.generate({type:"nodebuffer"});
-		case "file": return _fs.writeFileSync(o.file, z.generate({type:"nodebuffer"}));
+		case "base64": return z.generateAsync({type:"base64"});
+		case "binary": return z.generateAsync({type:"string"});
+		case "buffer": return z.generateAsync({type:"nodebuffer"});
+		case "file": return _fs.writeFileSync(o.file, await z.generate({type:"nodebuffer"}));
 		default: throw new Error("Unrecognized type " + o.type);
 	}
 }
